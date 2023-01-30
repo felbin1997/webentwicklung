@@ -4,6 +4,8 @@
 */
 const gameCanvas = document.getElementById("gameCanvas");
 const context = gameCanvas.getContext("2d");
+//Resize Game Canvas to 4:3
+sizeGameCanvas(gameCanvas);
 
 /**
  * The interval in milliseconds in which the game is updated.
@@ -35,11 +37,11 @@ const paddle = {
 }
 
 const stone = {
-    width: 200,
-    height: 20,
+    width: gameCanvas.width * 0.1,
+    height: gameCanvas.height * 0.025,
     color: "#FF0000",
-    margin: 20,
-}
+    margin: gameCanvas.width*0.005,
+};
 paddle.x = (gameCanvas.width - paddle.width) / 2;
 
 document.addEventListener("keydown", keyDownHandler, false);
@@ -175,7 +177,7 @@ function createLevel() {
     let n = 0;
     for (let x=-2; x<=2; x++) {
         for (let y=0; y<3; y++) {
-            stones[n] = new Stone((gameCanvas.width -stone.width) / 2 + x * (stone.width + 20),(stone.margin + (y * (stone.height+20))));
+            stones[n] = new Stone((gameCanvas.width -stone.width) / 2 + (x * (stone.width + stone.margin)),(stone.margin + (y * (stone.height+stone.margin))), gameCanvas);
             stones[n].draw(context);
             n = n + 1;
         }
@@ -184,9 +186,11 @@ function createLevel() {
 
 function drawStones() {
     for(let e=0; e< stones.length; e++) {
+        //delete Stones that are Hit
         if(stones[e].hit) { 
             delete stones.splice(e,1); 
         }
+        //Or Draw the Stone
         else {
             stones[e].draw(context);
         }
@@ -196,6 +200,7 @@ function drawStones() {
 function gameOver() {
     clearInterval(drawInterval);
     clearInterval(updateInterval);
+    showOverlay();
 }
 function gamePause() {
     

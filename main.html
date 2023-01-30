@@ -5,12 +5,21 @@
         <link rel="stylesheet" href="style/style.css">
     </head>
     <body onload="init();">
+        <div id="overlay">
+            <div id="close" onclick="hideOverlay()">X</div>
+            <div id="gameOver">
+                <img src="bilder/GameOver.png" width="100%" alt="gameOver"/>
+            </div>
+        </div>
+        
         <h1>Breakout</h1>
         <canvas id="gameCanvas" width="1280" height="720"></canvas>
         <input type="button" onclick="start()" value="Start">
         <input type="button" onclick="init()" value="Reset">
-    
+        
     </body>
+    <script type="text/javascript" src="js/window.js"></script>
     <script type="text/javascript" src="js/script.js"></script>
     <script type="text/javascript" src="js/stone.js"></script>
+
 </html>

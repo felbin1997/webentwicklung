@@ -1,7 +1,7 @@
 class Stone {
-    constructor(x , y) {
-        this.width = 200;
-        this.height = 20;
+    constructor(x , y, context) {
+        this.width = context.width * 0.1;
+        this.height = context.height * 0.025;
         this.color = "#FF0000";
         this.margin = 20;
         this.x = x;
@@ -9,6 +9,7 @@ class Stone {
         this.hit = false;
         this.points = 10;
     }
+    //Stein malen
     draw(context) {
         if(!this.hit) {
             context.beginPath();
@@ -26,6 +27,7 @@ class Stone {
     }
     //ToDo: Kollisionserkennung verbessern dass die Steine richtig erkannt werden
     isHit(x, y) {
+        //Kollision erkennen (muss noch auf die größe des Bals angepasst werden)
         if(((x+10 || x-10) > this.x && (x+10 || x-10) < (this.x + this.width)) && ((y +10 || y-10) > this.y && (y+10 || y-10) < (this.y + this.height))) {
             this.hit = true;
             return true;
