@@ -1,6 +1,5 @@
 /*
     ToDos:  Punktzahl einfügen
-            Game Over Screen erstellen
 */
 const gameCanvas = document.getElementById("gameCanvas");
 const context = gameCanvas.getContext("2d");
@@ -48,6 +47,7 @@ document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 
 function init() {
+    resetBall();
     drawBall();
     drawPaddle();
     createLevel();
@@ -156,6 +156,11 @@ function drawPaddle() {
     context.fillStyle = paddle.color;
     context.fill();
     context.closePath()
+}
+
+function resetBall() {
+    ball.x= gameCanvas.width / 2;
+    ball.y= gameCanvas.height - 60;
 }
 
 function updatePaddle() {
