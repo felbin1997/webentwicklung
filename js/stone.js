@@ -1,6 +1,6 @@
 class Stone {
     constructor(x , y, context) {
-        this.width = context.width * 0.1;
+        this.width = context.width * 0.15;
         this.height = context.height * 0.025;
         this.color = "#FF0000";
         this.margin = 20;

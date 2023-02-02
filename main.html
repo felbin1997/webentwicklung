@@ -7,15 +7,21 @@
     <body onload="init();">
         <div id="overlay">
             <div id="close" onclick="hideOverlay()">X</div>
-            <div id="gameOver">
+            <div id="gameOver" class="overlay" onclick="">
                 <img src="bilder/GameOver.png" width="100%" alt="gameOver"/>
+                <br/>
+                <a onclick="reset()">Reset</a>
+            </div>
+            <div id="start" class="overlay">
+                <ul>
+                    <li><a onclick="start()">Start</a></li>
+                   
+                </ul>
             </div>
         </div>
         
         <h1>Breakout</h1>
-        <canvas id="gameCanvas" width="1280" height="720"></canvas>
-        <input type="button" onclick="start()" value="Start">
-        <input type="button" onclick="init()" value="Reset">
+        <canvas id="gameCanvas" width="1280" height="720" onclick="loadStartMenu()"></canvas>
         
     </body>
     <script type="text/javascript" src="js/window.js"></script>

@@ -1,5 +1,6 @@
-const overlay= document.getElementById('overlay');
-
+const overlay = document.getElementById('overlay');
+const startOverlay = document.getElementById('start');
+const gameOverOverlay = document.getElementById('gameOver');
 
 function sizeGameCanvas (element) {
     if((window.innerWidth*0.8*4)/3 < window.innerHeight) {
@@ -19,6 +20,8 @@ function sizeGameCanvas (element) {
 
 function hideOverlay() {
     overlay.style.display = "none";
+    startOverlay.style.display = 'none';
+    gameOverOverlay.style.display = 'none';
 }
 
 function showOverlay() {
@@ -26,10 +29,10 @@ function showOverlay() {
 }
 
 function loadStartMenu() {
-    
+    startOverlay.style.display = "block";
+    showOverlay();
 }
 function loadGameOver() {
-    const gameOver = document.getElementById('gameOver');
-
-    gameOver.style.display = 'block';
+    gameOverOverlay.style.display = 'block';
+    showOverlay();
 }
