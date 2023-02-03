@@ -50,9 +50,8 @@ document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 
 function init() {
-    drawBall();
-    drawPaddle();
     createLevel();
+    draw();
 }
 
 function start() {
