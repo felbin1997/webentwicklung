@@ -8,19 +8,15 @@
         <div id="overlay">
             <div id="close" onclick="hideOverlay()">X</div>
             <div id="gameOver" class="overlay" onclick="">
-                <img src="bilder/GameOver.png" width="100%" alt="gameOver"/>
-                <br/>
-                <a onclick="reset()">Reset</a>
+                <h2 onclick="reset()">Reset</h2>
             </div>
             <div id="start" class="overlay">
-                <ul>
-                    <li><a onclick="start()">Start</a></li>
-                   
-                </ul>
+                <h2 onclick="start()">Start</h2>
             </div>
         </div>
         
         <h1>Breakout</h1>
+        <p id="punktzahl">Punktzahl: 0</p>
         <canvas id="gameCanvas" width="1280" height="720" onclick="loadStartMenu()"></canvas>
         
     </body>

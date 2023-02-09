@@ -1,13 +1,13 @@
 class Stone {
-    constructor(x , y, width, height) {
+    constructor(x , y, width, height, color, pointMultiplicator) {
         this.width = width;
         this.height = height;
-        this.color = "#FF0000";
-        this.margin = 20;
+        this.color = color;
+        this.margin = 1;
         this.x = x;
         this.y = y;
         this.hit = false;
-        this.points = 10;
+        this.points = 5 * pointMultiplicator;
     }
 
     draw(context) {

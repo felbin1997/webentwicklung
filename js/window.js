@@ -29,10 +29,10 @@ function showOverlay() {
 }
 
 function loadStartMenu() {
-    startOverlay.style.display = "block";
+    startOverlay.style.display = "flex";
     showOverlay();
 }
 function loadGameOver() {
-    gameOverOverlay.style.display = 'block';
+    gameOverOverlay.style.display = 'flex';
     showOverlay();
 }

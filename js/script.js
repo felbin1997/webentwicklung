@@ -3,6 +3,7 @@
 */
 const gameCanvas = document.getElementById("gameCanvas");
 const context = gameCanvas.getContext("2d");
+
 //Resize Game Canvas to 4:3
 sizeGameCanvas(gameCanvas);
 
@@ -17,34 +18,37 @@ let stones = new Set();
 let drawInterval;
 let updateInterval;
 
+let point = 0;
+
 const ball = {
     x: gameCanvas.width / 2,
-    y: gameCanvas.height - 60,
+    y: gameCanvas.height - 37,
     hSpeed: 4,
     vSpeed: -4,
     color: "#22A39F",
-    radius: 20,
+    radius: 7,
 };
 
 const paddle = {
-    width: 150,
-    height: 20,
+    width: 100,
+    height: 10,
     x: 0,
     speed: 7,
     bottomMargin: 20,
-    color: "#222222",
+    color: "#0055FF",
 };
 
 paddle.x = (gameCanvas.width - paddle.width) / 2;
 
 const stone = {
-    width: gameCanvas.width * 0.15,
+    width: gameCanvas.width * 0.08,
     height: gameCanvas.height * 0.025,
     color: "#FF0000",
-    margin: gameCanvas.width*0.005,
+    margin: gameCanvas.width*0.001,
+    marginTop: 50,
 };
 
-let stoneCount = 15;
+let stoneCount = 50;
 
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
@@ -104,16 +108,18 @@ function updateBall() {
 
 function createLevel() {
 
+    let stoneColors = ["#CC2200" , "#D33F00" , "#EE8000" , "#FFA000" , "#AAAA33" , "#BBBB11" , "#9999FF" , "#7777FF" , "#5555FF"];
     let horizontalStoneCount = Math.floor(gameCanvas.width / (stone.width + stone.margin));
     let verticalStoneCount = Math.ceil(stoneCount / horizontalStoneCount);
 
     for (let y = 0; y < verticalStoneCount; y++) {
         for (let x = 0; x < horizontalStoneCount; x++) {
+            
+            
+            let stoneX = x * (stone.width + stone.margin) + (gameCanvas.width/2 - ((horizontalStoneCount / 2) * stone.width + stone.margin));
+            let stoneY = y * (stone.height + stone.margin) + stone.marginTop;
 
-            let stoneX = x * (stone.width + stone.margin);
-            let stoneY = y * (stone.height + stone.margin);
-
-            stones.add(new Stone(stoneX, stoneY, stone.width, stone.height));
+            stones.add(new Stone(stoneX, stoneY, stone.width, stone.height , stoneColors[y] , verticalStoneCount - y));
         }
     }
     console.log(stones);
@@ -177,8 +183,8 @@ function updatePaddle() {
 }
 
 function resetPaddle() {
-    paddle.width= 150;
-    paddle.height= 20;
+    paddle.width= 100;
+    paddle.height= 10;
     paddle.x= gameCanvas.width / 2 - paddle.width/2;
     paddle.speed= 7;
 }
@@ -242,7 +248,7 @@ function drawBall() {
 
 function resetBall() {
     ball.x= gameCanvas.width / 2;
-    ball.y= gameCanvas.height - 60;
+    ball.y= gameCanvas.height - 37;
 }
 
 function updateStones() {
@@ -253,8 +259,13 @@ function deleteHitStones() {
     stones.forEach((stone) => {
         if (stone.hit) {
             stones.delete(stone);
+            addPoints(stone);
         }
     });
+}
+function addPoints(object) {
+    point += object.points;
+    document.getElementById('punktzahl').innerHTML = "Punktzahl:" + point;
 }
 
 function resetStones() {
