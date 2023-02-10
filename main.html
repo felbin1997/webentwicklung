@@ -8,10 +8,28 @@
         <div id="overlay">
             <div id="close" onclick="hideOverlay()">X</div>
             <div id="gameOver" class="overlay" onclick="">
-                <h2 onclick="reset()">Reset</h2>
+                <div>
+                    <h2 onclick="reset()">Reset</h2> <br/>
+                    <!--<input type="text" id="name" value="Enter your Name here!"> <br/>
+                    <input type="button" value="Submit to Scoreboard">-->
+                </div>
             </div>
             <div id="start" class="overlay">
-                <h2 onclick="start()">Start</h2>
+                <div>
+                    <h2 onclick="start()">Start</h2> <br/>
+                </div>
+            </div>
+            <div id="levelEnd" class="overlay">
+                <div>
+                    <h2>Congratilations!</h2> <br /> 
+                    <h2 onclick="nextLevel()">Next Level!</h2>
+                </div>
+            </div>
+            <div id="pauseMenu" class="overlay">
+                <div>
+                    <h2>Pause</h2> <br /> 
+                    <h2>Press Space to Continue</h2>
+                </div>
             </div>
         </div>
         

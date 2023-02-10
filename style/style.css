@@ -40,7 +40,7 @@ body {
 .overlay {
     background: rgba(255,255,255,0.4);
     z-index: 10;
-    display: hidden;
+    display: none;
     position: absolute;
     color: #FFFFFF;
     top: 50%;

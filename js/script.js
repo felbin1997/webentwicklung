@@ -12,12 +12,15 @@ sizeGameCanvas(gameCanvas);
  */
 const interval = 10;
 
+let stoneCount = 50;
+
 let rightPressed = false;
 let leftPressed = false;
 let stones = new Set();
 let drawInterval;
 let updateInterval;
 
+let isRunning = false;
 let point = 0;
 
 const ball = {
@@ -48,8 +51,6 @@ const stone = {
     marginTop: 50,
 };
 
-let stoneCount = 50;
-
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 
@@ -60,6 +61,7 @@ function init() {
 
 function start() {
     hideOverlay();
+    isRunning = true;
     drawInterval = setInterval(draw, interval);
     updateInterval = setInterval(update, interval);
 }
@@ -76,10 +78,33 @@ function reset() {
 function gameOver() {
     clearInterval(drawInterval);
     clearInterval(updateInterval);
+    isRunning = false;
     loadGameOver();
 }
 function gamePause() {
-    
+    if(isRunning) {
+        clearInterval(drawInterval);
+        clearInterval(updateInterval);
+        isRunning = false;
+        loadPauseMenu();
+    }
+    else {
+        start();
+    }
+}
+function levelEnd () {
+    clearInterval(drawInterval);
+    clearInterval(updateInterval);
+    isRunning = false;
+    loadLevelEnd();
+}
+function nextLevel() {
+    stoneCount = stoneCount * 2;
+    resetBall();
+    resetPaddle();
+    resetStones();
+    init();
+    hideOverlay();
 }
 
 /**
@@ -122,7 +147,6 @@ function createLevel() {
             stones.add(new Stone(stoneX, stoneY, stone.width, stone.height , stoneColors[y] , verticalStoneCount - y));
         }
     }
-    console.log(stones);
 }
 
 function drawStones() {
@@ -144,6 +168,8 @@ function keyDownHandler(e) {
         rightPressed = true;
     } else if (e.key === "Left" || e.key === "ArrowLeft") {
         leftPressed = true;
+    } else if (e.key == 32 || e.key == " " || e.key == "Spacebar") {
+        gamePause();
     }
 }
 
@@ -186,7 +212,6 @@ function resetPaddle() {
     paddle.width= 100;
     paddle.height= 10;
     paddle.x= gameCanvas.width / 2 - paddle.width/2;
-    paddle.speed= 7;
 }
 /*
     Ball Functions
@@ -256,12 +281,17 @@ function updateStones() {
 }
 
 function deleteHitStones() {
-    stones.forEach((stone) => {
-        if (stone.hit) {
-            stones.delete(stone);
-            addPoints(stone);
-        }
-    });
+    if (stones.size > 0 ) {
+        stones.forEach((stone) => {
+            if (stone.hit) {
+                stones.delete(stone);
+                addPoints(stone);
+            }
+        });
+    }
+    else {
+        levelEnd();
+    }
 }
 function addPoints(object) {
     point += object.points;
