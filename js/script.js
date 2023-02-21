@@ -73,6 +73,8 @@ function reset() {
     resetStones();
     init();
     hideOverlay();
+    point = 0;
+    addPoints();
 }
 
 function gameOver() {
@@ -295,6 +297,9 @@ function deleteHitStones() {
 }
 function addPoints(object) {
     point += object.points;
+    document.getElementById('punktzahl').innerHTML = "Punktzahl:" + point;
+}
+function addPoints() {
     document.getElementById('punktzahl').innerHTML = "Punktzahl:" + point;
 }
 

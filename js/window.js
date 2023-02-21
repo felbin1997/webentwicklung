@@ -6,12 +6,13 @@ const pauseMenu = document.getElementById('pauseMenu');
 
 function sizeGameCanvas (element) {
     if((window.innerWidth*0.8*4)/3 < window.innerHeight) {
+       
         element.width = window.innerWidth * 0.8;
         element.height = (element.width * 4)/3;
     }
     else {
         element.height = window.innerHeight * 0.8;
-        element.width = (element.height * 4)/3;
+        element.width = (element.height * 3)/4;
     }
 }
 
