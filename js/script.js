@@ -142,11 +142,12 @@ function createLevel() {
     for (let y = 0; y < verticalStoneCount; y++) {
         for (let x = 0; x < horizontalStoneCount; x++) {
             
+            let marginLeft = (horizontalStoneCount / 2) * stone.width + stone.margin;
             
-            let stoneX = x * (stone.width + stone.margin) + (gameCanvas.width/2 - ((horizontalStoneCount / 2) * stone.width + stone.margin));
+            let stoneX = x * (stone.width + stone.margin) + (gameCanvas.width / 2 - marginLeft);
             let stoneY = y * (stone.height + stone.margin) + stone.marginTop;
 
-            stones.add(new Stone(stoneX, stoneY, stone.width, stone.height , stoneColors[y] , verticalStoneCount - y));
+            stones.add(new Stone(stoneX, stoneY, stone.width, stone.height, stoneColors[y], verticalStoneCount - y));
         }
     }
 }
