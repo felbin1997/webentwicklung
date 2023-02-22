@@ -4,23 +4,20 @@ const gameOverOverlay = document.getElementById('gameOver');
 const levelEndOverlay = document.getElementById('levelEnd');
 const pauseMenu = document.getElementById('pauseMenu');
 
+//Game Canvas an Bildschirmgröße anpassen
 function sizeGameCanvas (element) {
-    if((window.innerWidth*0.8*4)/3 < window.innerHeight) {
+    if((window.innerWidth*0.7) > window.innerHeight * 0.7) {
        
-        element.width = window.innerWidth * 0.8;
-        element.height = (element.width * 4)/3;
+        element.width = window.innerWidth * 0.7;
+        element.height = ((element.width * 0.7 * 4)/3) * 0.7;
     }
     else {
-        element.height = window.innerHeight * 0.8;
-        element.width = (element.height * 3)/4;
+        element.height = window.innerHeight * 0.7;
+        element.width = ((element.height * 3)/4) *0.7;
     }
 }
 
-
-
-
-//Overlay Menus
-
+//Alle Menus und den Hintergrund ausbleden
 function hideOverlay() {
     overlay.style.display = "none";
     startOverlay.style.display = 'none';
@@ -28,7 +25,7 @@ function hideOverlay() {
     levelEndOverlay.style.display = 'none';
     pauseMenu.style.display = 'none';
 }
-
+//Hintergrund des Overlays einblenden
 function showOverlay() {
     overlay.style.display = "block";
 }

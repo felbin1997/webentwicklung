@@ -51,6 +51,8 @@ const stone = {
     marginTop: 50,
 };
 
+const stoneColors = ["#CC2200" , "#D33F00" , "#EE8000" , "#FFA000" , "#AAAA33" , "#BBBB11" , "#9999FF" , "#7777FF" , "#5555FF"];
+
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 
@@ -73,8 +75,7 @@ function reset() {
     resetStones();
     init();
     hideOverlay();
-    point = 0;
-    addPoints();
+    setPointstoZero();
 }
 
 function gameOver() {
@@ -135,7 +136,6 @@ function updateBall() {
 
 function createLevel() {
 
-    let stoneColors = ["#CC2200" , "#D33F00" , "#EE8000" , "#FFA000" , "#AAAA33" , "#BBBB11" , "#9999FF" , "#7777FF" , "#5555FF"];
     let horizontalStoneCount = Math.floor(gameCanvas.width / (stone.width + stone.margin));
     let verticalStoneCount = Math.ceil(stoneCount / horizontalStoneCount);
 
@@ -162,9 +162,6 @@ function clearCanvas() {
 
 }
 
-/*
-    Paddle functions
-*/
 function keyDownHandler(e) {
     if (e.key === "Right" || e.key === "ArrowRight") {
         rightPressed = true;
@@ -182,6 +179,11 @@ function keyUpHandler(e) {
         leftPressed = false;
     }
 }
+
+/*
+    Paddle functions
+*/
+
 function drawPaddle() {
     context.beginPath();
     context.rect(
@@ -277,7 +279,9 @@ function resetBall() {
     ball.x= gameCanvas.width / 2;
     ball.y= gameCanvas.height - 37;
 }
-
+/*
+    Ball Functions
+*/
 function updateStones() {
     deleteHitStones();
 }
@@ -295,14 +299,48 @@ function deleteHitStones() {
         levelEnd();
     }
 }
+
+function resetStones() {
+    stones.clear();
+}
+
+/*
+    Point Functions
+*/
 function addPoints(object) {
     point += object.points;
     document.getElementById('punktzahl').innerHTML = "Punktzahl:" + point;
 }
-function addPoints() {
+function setPointstoZero() {
+    point = 0;
     document.getElementById('punktzahl').innerHTML = "Punktzahl:" + point;
 }
 
-function resetStones() {
-    stones.clear();
+/*
+    Stone Functions
+*/
+class Stone {
+    constructor(x , y, width, height, color, pointMultiplicator) {
+        this.width = width;
+        this.height = height;
+        this.color = color;
+        this.margin = 1;
+        this.x = x;
+        this.y = y;
+        this.hit = false;
+        this.points = 5 * pointMultiplicator;
+    }
+
+    draw(context) {
+        context.beginPath();
+        context.rect(
+            this.x, 
+            this.y, 
+            this.width, 
+            this.height,
+        );
+        context.fillStyle = this.color;
+        context.fill();
+        context.closePath()
+    }
 }
