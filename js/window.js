@@ -9,11 +9,11 @@ function sizeGameCanvas (element) {
     if((window.innerWidth*0.7) > window.innerHeight * 0.7) {
        
         element.width = window.innerWidth * 0.7;
-        element.height = ((element.width * 0.7 * 4)/3) * 0.7;
+        element.height = ((element.width * 0.7 * 4)/3) * 0.6;
     }
     else {
-        element.height = window.innerHeight * 0.7;
-        element.width = ((element.height * 3)/4) *0.7;
+        element.height = window.innerHeight * 0.6;
+        element.width = ((element.height * 3)/4) *0.6;
     }
 }
 
