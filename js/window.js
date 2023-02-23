@@ -4,7 +4,9 @@ const gameOverOverlay = document.getElementById('gameOver');
 const levelEndOverlay = document.getElementById('levelEnd');
 const pauseMenu = document.getElementById('pauseMenu');
 
-//Game Canvas an Bildschirmgröße anpassen
+/**
+ * adjust game canvas size to browser window
+ */
 function sizeGameCanvas (element) {
     if((window.innerWidth*0.7) > window.innerHeight * 0.7) {
        
@@ -17,7 +19,9 @@ function sizeGameCanvas (element) {
     }
 }
 
-//Alle Menus und den Hintergrund ausbleden
+/**
+ * hide all menus and the background
+ */
 function hideOverlay() {
     overlay.style.display = "none";
     startOverlay.style.display = 'none';
@@ -25,10 +29,13 @@ function hideOverlay() {
     levelEndOverlay.style.display = 'none';
     pauseMenu.style.display = 'none';
 }
-//Hintergrund des Overlays einblenden
+
+/**
+ * show overlay background
+ */
 function showOverlay() {
     overlay.style.display = "block";
-}
+}   
 
 function loadStartMenu() {
     if (isRunning) { console.log ("Game is running!"); }

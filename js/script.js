@@ -1,10 +1,9 @@
-/*
-    ToDos:  Punktzahl einfügen
-*/
 const gameCanvas = document.getElementById("gameCanvas");
 const context = gameCanvas.getContext("2d");
 
-//Resize Game Canvas to 4:3
+/**
+ * Resize game canvas to 4:3 and adjust its size to the browser window
+ */
 sizeGameCanvas(gameCanvas);
 
 /**
@@ -12,16 +11,11 @@ sizeGameCanvas(gameCanvas);
  */
 const interval = 10;
 
-let stoneCount = 50;
-
-let rightPressed = false;
-let leftPressed = false;
-let stones = new Set();
 let drawInterval;
 let updateInterval;
 
 let isRunning = false;
-let point = 0;
+let points = 0;
 
 const ball = {
     x: gameCanvas.width / 2,
@@ -51,7 +45,12 @@ const stone = {
     marginTop: 50,
 };
 
+let stoneCount = 50;
+let stones = new Set();
 const stoneColors = ["#CC2200" , "#D33F00" , "#EE8000" , "#FFA000" , "#AAAA33" , "#BBBB11" , "#9999FF" , "#7777FF" , "#5555FF"];
+
+let rightPressed = false;
+let leftPressed = false;
 
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
@@ -59,79 +58,6 @@ document.addEventListener("keyup", keyUpHandler, false);
 function init() {
     createLevel();
     draw();
-}
-
-function start() {
-    hideOverlay();
-    isRunning = true;
-    drawInterval = setInterval(draw, interval);
-    updateInterval = setInterval(update, interval);
-}
-
-function reset() {
-    clearCanvas();
-    resetBall();
-    resetPaddle();
-    resetStones();
-    init();
-    hideOverlay();
-    setPointstoZero();
-}
-
-function gameOver() {
-    clearInterval(drawInterval);
-    clearInterval(updateInterval);
-    isRunning = false;
-    loadGameOver();
-}
-function gamePause() {
-    if(isRunning) {
-        clearInterval(drawInterval);
-        clearInterval(updateInterval);
-        isRunning = false;
-        loadPauseMenu();
-    }
-    else {
-        start();
-    }
-}
-function levelEnd () {
-    clearInterval(drawInterval);
-    clearInterval(updateInterval);
-    isRunning = false;
-    loadLevelEnd();
-}
-function nextLevel() {
-    stoneCount = stoneCount * 2;
-    resetBall();
-    resetPaddle();
-    resetStones();
-    init();
-    hideOverlay();
-}
-
-/**
- * This function contains all the drawing logic.
- */
-function draw() {
-    clearCanvas();
-    drawBall();
-    drawPaddle();
-    drawStones();
-}
-
-/**
- * This function contains all the physics logic.
- */
-function update() {
-    updateBall();
-    updatePaddle();
-    updateStones();
-}
-function updateBall() {
-    bounceBall();
-    ball.x += ball.hSpeed;
-    ball.y += ball.vSpeed;
 }
 
 function createLevel() {
@@ -152,15 +78,56 @@ function createLevel() {
     }
 }
 
-function drawStones() {
-    for (const stone of stones) {
-        stone.draw(context);
+function start() {
+    hideOverlay();
+    isRunning = true;
+    drawInterval = setInterval(draw, interval);
+    updateInterval = setInterval(update, interval);
+}
+
+function reset() {
+    clearCanvas();
+    resetBall();
+    resetPaddle();
+    resetStones();
+    init();
+    hideOverlay();
+    setPointstoZero();
+}
+
+function gamePause() {
+    if(isRunning) {
+        clearInterval(drawInterval);
+        clearInterval(updateInterval);
+        isRunning = false;
+        loadPauseMenu();
+    }
+    else {
+        start();
     }
 }
 
-function clearCanvas() {
-    context.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
+function gameOver() {
+    clearInterval(drawInterval);
+    clearInterval(updateInterval);
+    isRunning = false;
+    loadGameOver();
+}
 
+function levelEnd () {
+    clearInterval(drawInterval);
+    clearInterval(updateInterval);
+    isRunning = false;
+    loadLevelEnd();
+}
+
+function nextLevel() {
+    stoneCount = stoneCount * 2;
+    resetBall();
+    resetPaddle();
+    resetStones();
+    init();
+    hideOverlay();
 }
 
 function keyDownHandler(e) {
@@ -181,46 +148,46 @@ function keyUpHandler(e) {
     }
 }
 
-/*
-    Paddle functions
-*/
+function clearCanvas() {
+    context.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
+}
 
-function drawPaddle() {
+/**
+ * This function contains all the drawing logic.
+ */
+function draw() {
+    clearCanvas();
+    drawBall();
+    drawPaddle();
+    drawStones();
+}
+
+/**
+ * This function contains all the physics logic.
+ */
+function update() {
+    updateBall();
+    updatePaddle();
+    updateStones();
+}
+
+/**
+ * Ball
+ */
+function updateBall() {
+    bounceBall();
+    ball.x += ball.hSpeed;
+    ball.y += ball.vSpeed;
+}
+
+function drawBall() {
     context.beginPath();
-    context.rect(
-        paddle.x, 
-        gameCanvas.height - paddle.height - paddle.bottomMargin, 
-        paddle.width, 
-        paddle.height,
-    );
-    context.fillStyle = paddle.color;
+    context.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+    context.fillStyle = ball.color;
     context.fill();
-    context.closePath()
+    context.closePath();
 }
 
-function updatePaddle() {
-    if (rightPressed) {
-        paddle.x = Math.min(
-            paddle.x + paddle.speed, 
-            gameCanvas.width - paddle.width
-        );
-    } 
-    if (leftPressed) {
-        paddle.x = Math.max(
-            paddle.x - paddle.speed,
-            0,
-        );
-    }
-}
-
-function resetPaddle() {
-    paddle.width= 100;
-    paddle.height= 10;
-    paddle.x= gameCanvas.width / 2 - paddle.width/2;
-}
-/*
-    Ball Functions
-*/
 function bounceBall() {
     let ballIsAtBottom = 
         ball.y + ball.vSpeed > gameCanvas.height - ball.radius;
@@ -253,73 +220,51 @@ function bounceBall() {
     });
 }
 
-function ballHitsStone(stone) {
-    let ballIsInStoneWidth = 
-        ball.x + ball.hSpeed + ball.radius >= stone.x &&
-        ball.x + ball.hSpeed + ball.radius <= stone.x + stone.width;
-    let ballIsInStoneHeight =
-        ball.y + ball.vSpeed + ball.radius >= stone.y &&
-        ball.y + ball.vSpeed + ball.radius <= stone.y + stone.height;
-
-    if (ballIsInStoneWidth && ballIsInStoneHeight) {
-        stone.hit = true;
-        return true;
-    }
-    return false;
-}
-
-function drawBall() {
-    context.beginPath();
-    context.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
-    context.fillStyle = ball.color;
-    context.fill();
-    context.closePath();
-}
-
 function resetBall() {
     ball.x= gameCanvas.width / 2;
     ball.y= gameCanvas.height - 37;
 }
-/*
-    Ball Functions
-*/
-function updateStones() {
-    deleteHitStones();
-}
 
-function deleteHitStones() {
-    if (stones.size > 0 ) {
-        stones.forEach((stone) => {
-            if (stone.hit) {
-                stones.delete(stone);
-                addPoints(stone);
-            }
-        });
-    }
-    else {
-        levelEnd();
+/**
+ *  Paddle functions
+ */
+function updatePaddle() {
+    if (rightPressed) {
+        paddle.x = Math.min(
+            paddle.x + paddle.speed, 
+            gameCanvas.width - paddle.width
+        );
+    } 
+    if (leftPressed) {
+        paddle.x = Math.max(
+            paddle.x - paddle.speed,
+            0,
+        );
     }
 }
 
-function resetStones() {
-    stones.clear();
+function drawPaddle() {
+    context.beginPath();
+    context.rect(
+        paddle.x, 
+        gameCanvas.height - paddle.height - paddle.bottomMargin, 
+        paddle.width, 
+        paddle.height,
+    );
+    context.fillStyle = paddle.color;
+    context.fill();
+    context.closePath()
+}
+
+function resetPaddle() {
+    paddle.width= 100;
+    paddle.height= 10;
+    paddle.x= gameCanvas.width / 2 - paddle.width/2;
 }
 
 /*
-    Point Functions
-*/
-function addPoints(object) {
-    point += object.points;
-    document.getElementById('punktzahl').innerHTML = "Punktzahl:" + point;
-}
-function setPointstoZero() {
-    point = 0;
-    document.getElementById('punktzahl').innerHTML = "Punktzahl:" + point;
-}
-
-/*
-    Stone Functions
-*/
+ *   Stones
+ */
 class Stone {
     constructor(x , y, width, height, color, pointMultiplicator) {
         this.width = width;
@@ -344,4 +289,59 @@ class Stone {
         context.fill();
         context.closePath()
     }
+}
+
+function updateStones() {
+    deleteHitStones();
+}
+
+function drawStones() {
+    for (const stone of stones) {
+        stone.draw(context);
+    }
+}
+
+function ballHitsStone(stone) {
+    let ballIsInStoneWidth = 
+        ball.x + ball.hSpeed + ball.radius >= stone.x &&
+        ball.x + ball.hSpeed + ball.radius <= stone.x + stone.width;
+    let ballIsInStoneHeight =
+        ball.y + ball.vSpeed + ball.radius >= stone.y &&
+        ball.y + ball.vSpeed + ball.radius <= stone.y + stone.height;
+
+    if (ballIsInStoneWidth && ballIsInStoneHeight) {
+        stone.hit = true;
+        return true;
+    }
+    return false;
+}
+
+function deleteHitStones() {
+    if (stones.size > 0 ) {
+        stones.forEach((stone) => {
+            if (stone.hit) {
+                stones.delete(stone);
+                addPoints(stone);
+            }
+        });
+    }
+    else {
+        levelEnd();
+    }
+}
+
+function resetStones() {
+    stones.clear();
+}
+
+/*
+ *   Points 
+ */
+function addPoints(object) {
+    points += object.points;
+    document.getElementById('punktzahl').innerHTML = "Punktzahl:" + points;
+}
+function setPointstoZero() {
+    points = 0;
+    document.getElementById('punktzahl').innerHTML = "Punktzahl:" + points;
 }

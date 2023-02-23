@@ -18,6 +18,7 @@ body {
     margin: 0 auto;
     border: 1px solid black;
 }
+
 /* Overlay Background Styling */
 #overlay {
 	position:absolute;
@@ -36,6 +37,7 @@ body {
 #start {
     display: none;
 }
+
 /* Basic Overlay Style */
 .overlay {
     background: rgba(255,255,255,0.4);
@@ -54,6 +56,7 @@ body {
     align-items: center;
     justify-content: center;
 }
+
 /* Styling of the Close Button */
 #close {
     position: absolute;
